@@ -1,4 +1,5 @@
 ﻿using AliGulmen.Week1.HomeWork.RestfulApi.Entities;
+using AliGulmen.Week1.HomeWork.RestfulApi.DbOperations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -10,27 +11,8 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
     [ApiController]
     public class LocationController : ControllerBase
     {
-        /*locations =  xxyyzz 
-         * xx = side (left=01, right=02)
-         * yy = vertical cell (floor)
-         * zz = horizontal cell (slot) */
 
-        private static List<Location> LocationList = new List<Location>() {
-            new Location { locationId = 1, locationName = "010101", rotationId = 1 },
-            new Location { locationId = 2, locationName = "010102", rotationId = 2 },
-            new Location { locationId = 3, locationName = "010103", rotationId = 3 },
-            new Location { locationId = 4, locationName = "010201", rotationId = 1 },
-            new Location { locationId = 5, locationName = "010202", rotationId = 2 },
-            new Location { locationId = 6, locationName = "010203", rotationId = 3 },
-            new Location { locationId = 7, locationName = "020101", rotationId = 1 },
-            new Location { locationId = 8, locationName = "020102", rotationId = 2 },
-            new Location { locationId = 9, locationName = "020103", rotationId = 3 },
-            new Location { locationId = 10, locationName = "020201", rotationId = 1 },
-            new Location { locationId = 11, locationName = "020202", rotationId = 2 },
-            new Location { locationId = 12, locationName = "020203", rotationId = 3 }
-        };
-
-
+        private static List<Location> LocationList = DataGenerator.LocationList;
         public LocationController()
         { }
 

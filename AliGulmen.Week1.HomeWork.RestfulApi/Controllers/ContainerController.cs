@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using AliGulmen.Week1.HomeWork.RestfulApi.DbOperations;
 
 namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
 {
@@ -13,18 +14,8 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
 
     {
 
-        
-        private static List<Container> ContainerList = new List<Container>() {
-            new Container { containerId = 1, productId = 1, uomId = 1,quantity = 200,locationId =1 ,weight = 300, creationDate=DateTime.Today.AddDays(-100) },
-            new Container { containerId = 2, productId = 1, uomId = 1,quantity = 100,locationId =5 ,weight = 250, creationDate=DateTime.Today.AddDays(-45) },
-            new Container { containerId = 3, productId = 3, uomId = 2,quantity = 150,locationId =3 ,weight = 400, creationDate=DateTime.Today.AddDays(-15) },
-            new Container { containerId = 4, productId = 4, uomId = 2,quantity = 150,locationId =6 ,weight = 300, creationDate=DateTime.Today.AddDays(-1) },
-            new Container { containerId = 5, productId = 4, uomId = 2,quantity = 150,locationId =7 ,weight = 300, creationDate=DateTime.Today.AddDays(-97) },
-            new Container { containerId = 6, productId = 6, uomId = 2,quantity = 240,locationId =8 ,weight = 240, creationDate=DateTime.Today.AddDays(-16) },
-            new Container { containerId = 7, productId = 7, uomId = 2,quantity = 300,locationId =11 ,weight = 500, creationDate=DateTime.Today.AddDays(-16) },
-            new Container { containerId = 8, productId = 8, uomId = 3,quantity = 140,locationId =9 ,weight = 250, creationDate=DateTime.Today.AddDays(-78) }
 
-        };
+        private static List<Container> ContainerList = DataGenerator.ContainerList;
 
 
         public ContainerController()

@@ -1,4 +1,5 @@
-﻿using AliGulmen.Week1.HomeWork.RestfulApi.Entities;
+﻿using AliGulmen.Week1.HomeWork.RestfulApi.DbOperations;
+using AliGulmen.Week1.HomeWork.RestfulApi.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -10,13 +11,10 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
     [ApiController]
     public class RotationController : ControllerBase
     {
-        private static List<Rotation> RotationList = new List<Rotation>() {
-            new Rotation { rotationId = 1, rotationCode = "Cat A"},
-            new Rotation { rotationId = 2, rotationCode = "Cat B" },
-            new Rotation { rotationId = 3, rotationCode = "Cat C" },
-            new Rotation { rotationId = 4, rotationCode = "Cat D" }
-        };
 
+        private static List<Rotation> RotationList = DataGenerator.RotationList;
+        private static List<Location> LocationList = DataGenerator.LocationList;
+        private static List<Product> ProductList = DataGenerator.ProductList;
 
         public RotationController()
         { }
@@ -131,5 +129,26 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
 
 
         }
+
+
+        /************************************* Linked Tables ********************************************/
+
+        //GET api/rotations/1/Locations
+        [HttpGet("{id}/Locations")]
+        public List<Location> GetLocationsByRotation(int id)
+        {
+            List<Location> locations = LocationList.Where(b => b.rotationId == id).ToList();
+            return locations;
+        }
+
+
+        //GET api/rotations/1/Products
+        [HttpGet("{id}/Products")]
+        public List<Product> GetProductsByRotation(int id)
+        {
+            List<Product> products = ProductList.Where(b => b.rotationId == id).ToList();
+            return products;
+        }
+
     }
 }

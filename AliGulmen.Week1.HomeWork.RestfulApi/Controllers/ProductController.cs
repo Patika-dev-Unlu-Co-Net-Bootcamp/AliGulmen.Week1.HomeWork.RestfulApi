@@ -1,5 +1,5 @@
-﻿using AliGulmen.Week1.HomeWork.RestfulApi.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using AliGulmen.Week1.HomeWork.RestfulApi.DbOperations;
+using AliGulmen.Week1.HomeWork.RestfulApi.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +12,8 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
 
       
     {
-        private static List<Product> ProductList = new List<Product>() {
-            new Product { productId = 1, productCode = "87965493291", description = "Prod1",rotationId = 1,isActive =true ,lifeTime = 365 },
-            new Product { productId = 2, productCode = "87965493292", description = "Prod2",rotationId = 1,isActive =true ,lifeTime = 365 },
-            new Product { productId = 3, productCode = "87965493293", description = "Prod3",rotationId = 1,isActive =true ,lifeTime = 365 },
-            new Product { productId = 4, productCode = "87965493294", description = "Prod4",rotationId = 2,isActive =true ,lifeTime = 365 },
-            new Product { productId = 5, productCode = "87965493295", description = "Prod5",rotationId = 2,isActive =false ,lifeTime = 365 },
-            new Product { productId = 6, productCode = "87965493296", description = "Prod6",rotationId = 2,isActive =true ,lifeTime = 365 },
-            new Product { productId = 7, productCode = "87965493297", description = "Prod7",rotationId = 3,isActive =true ,lifeTime = 365 },
-            new Product { productId = 8, productCode = "87965493298", description = "Prod8",rotationId = 4,isActive =true ,lifeTime = 365 }
-           
-        };
-
+        private static List<Product> ProductList = DataGenerator.ProductList;
+        private static List<Container> ContainerList = DataGenerator.ContainerList;
 
         public ProductController()
         { }
@@ -39,7 +29,7 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
 
         //GET api/products/1
         [HttpGet("{id}")]
-        public Product ProductById(int id)
+        public Product GetProductById(int id)
         {
             var product = ProductList.Where(b => b.productId == id).SingleOrDefault();
             return product;
@@ -142,5 +132,20 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
 
 
         }
+
+
+
+
+        /************************************* Linked Tables ********************************************/
+        
+        //GET api/products/1/Containers
+        [HttpGet("{id}/Containers")]
+        public List<Container> GetContainersByProduct(int id)
+        {
+            List<Container> containers = ContainerList.Where(b => b.productId == id).ToList();
+            return containers;
+        }
+
+
     }
 }

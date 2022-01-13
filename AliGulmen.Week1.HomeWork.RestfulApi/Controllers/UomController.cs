@@ -1,4 +1,5 @@
 ﻿using AliGulmen.Week1.HomeWork.RestfulApi.Entities;
+using AliGulmen.Week1.HomeWork.RestfulApi.DbOperations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -10,16 +11,13 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
     [ApiController]
     public class UomController : ControllerBase
     {
-        private static List<Uom> UomList = new List<Uom>() {
-            new Uom { uomId = 1, uomCode = "Box", description = "Box" },
-            new Uom { uomId = 2, uomCode = "Ctn", description = "Carton" },
-            new Uom { uomId = 3, uomCode = "Pc", description = "Piece" },
-            new Uom { uomId = 4, uomCode = "Pk", description = "Package" }
-        };
 
-       
+
+        private static List<Uom> UomList = DataGenerator.UomList;
         public UomController()
-        { }
+        {
+            
+        }
 
         /************************************* GET *********************************************/
 
