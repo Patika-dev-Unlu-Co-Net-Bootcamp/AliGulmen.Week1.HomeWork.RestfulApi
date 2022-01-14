@@ -1,4 +1,6 @@
-﻿namespace AliGulmen.Week1.HomeWork.RestfulApi.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AliGulmen.Week1.HomeWork.RestfulApi.Entities
 {
 	/*
 	 * The product shows the list of materials produced at the facility.
@@ -8,11 +10,18 @@
 	 */
 	public class Product
 	{
+		[Required]
 		public int productId { get; set; }
+
+		[Required]
 		public string productCode { get; set; }
+
 		public string description { get; set; }
 		public int rotationId { get; set; }
+
+		[Required]
 		public bool isActive { get; set; }
+
 		public int lifeTime { get; set; }
 
 	}

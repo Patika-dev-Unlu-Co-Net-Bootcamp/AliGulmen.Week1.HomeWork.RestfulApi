@@ -1,4 +1,6 @@
-﻿namespace AliGulmen.Week1.HomeWork.RestfulApi.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AliGulmen.Week1.HomeWork.RestfulApi.Entities
 {
     /*
     * locations are the places where containers can be located
@@ -6,8 +8,13 @@
    */
     public class Location
     {
+        [Required]
         public int locationId { get; set; }
+
+        [Required]
         public string locationName { get; set; }
+
+        //rotationId is optional
         public int rotationId { get; set; }
     }
 }

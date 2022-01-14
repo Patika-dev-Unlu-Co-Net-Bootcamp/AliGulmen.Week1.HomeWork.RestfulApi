@@ -10,7 +10,7 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
     [ApiController]
     public class ProductController : ControllerBase
 
-      
+
     {
         private static List<Product> ProductList = DataGenerator.ProductList;
         private static List<Container> ContainerList = DataGenerator.ContainerList;
@@ -20,31 +20,56 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
 
         /************************************* GET *********************************************/
 
+        //Get all records
         //GET api/products
         [HttpGet]
-        public List<Product> GetProducts()
+        public IActionResult GetProducts()
         {
-            return ProductList;
+            if (ProductList.Count == 0)
+                return NotFound("There is not any record in the list!");
+            return Ok(ProductList);
         }
+
+
 
         //GET api/products/1
         [HttpGet("{id}")]
-        public Product GetProductById(int id)
+        public IActionResult GetProductById(int id)
         {
-            var product = ProductList.Where(b => b.productId == id).SingleOrDefault();
-            return product;
+            var product = new Product();
+            product = ProductList.Where(b => b.productId == id).SingleOrDefault();
+            if (product == null)
+                return NotFound("This product is not exists!");
+            return Ok(product);
+        }
+
+        //Get all containers for selected product
+        //GET api/products/1/Containers
+        [HttpGet("{id}/Containers")]
+        public IActionResult GetContainersByProduct(int id)
+        {
+            var containers = ContainerList
+                                        .Where(b => b.productId == id)
+                                        .OrderBy(b => b.containerId)
+                                        .ToList();
+            if (containers == null)
+                return NotFound("There is no container belongs to this product!");
+            return Ok(containers); //http 200
         }
 
 
+        //Get all products belongs to specific rotation
+        //GET api/products/list?rotationId=1
+        [HttpGet("list")]
+        public IActionResult GetProductsByRotation([FromQuery] int rotationId)
+        {
 
+            var products = ProductList.Where(b => b.rotationId == rotationId).ToList();
+            if (products.Count == 0)
+                return NotFound("There is no product belongs to this rotation!");
 
-        //api/Products?id=3
-        //[HttpGet]
-        //public Book Get([FromQuery]string id)
-        //{
-        //      var product = ProductList.Where(b => b.productId == Convert.ToInt32(id)).SingleOrDefault();
-        //    return product;
-        //}
+            return Ok(products); //http 200
+        }
 
 
         /************************************* POST *********************************************/
@@ -55,12 +80,17 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
         [HttpPost]
         public IActionResult CreateProduct([FromBody] Product newProduct)
         {
+            if (newProduct is null) //if the user not send any data, we will return bad request
+                return BadRequest("No data entered!");
+
+            //check if we already have this product in our list
             var product = ProductList.SingleOrDefault(b => b.productCode == newProduct.productCode); //check if we already have that productCode in our list
+
             if (product is not null)
-                return BadRequest();
+                return BadRequest("You already have this product in your list!");
 
             ProductList.Add(newProduct);
-            return Ok(ProductList); //http 200 
+            return Created("~api/products", newProduct); //http 201
         }
 
 
@@ -68,11 +98,16 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
         /************************************* PUT *********************************************/
 
 
-
+        //Update all informations
         //PUT api/products/id
         [HttpPut("{id}")]
         public IActionResult Update(Product newProduct)
         {
+
+            if (newProduct is null)
+                return BadRequest("No data entered!");
+
+
             var ourRecord = ProductList.SingleOrDefault(g => g.productId == newProduct.productId);
             if (ourRecord != null)
             {
@@ -84,14 +119,13 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
                 ourRecord.rotationId = newProduct.rotationId != default ? newProduct.rotationId : ourRecord.rotationId;
                 ourRecord.isActive = newProduct.isActive != default ? newProduct.isActive : ourRecord.isActive;
                 ourRecord.lifeTime = newProduct.lifeTime != default ? newProduct.lifeTime : ourRecord.lifeTime;
-                return Ok(ProductList); //http 200 
             }
             else
             {
-                return BadRequest();
+                return NotFound("There is no record to update");
             }
 
-
+            return Ok(ProductList); //http 200 
         }
 
 
@@ -104,17 +138,18 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
         {
             var ourRecord = ProductList.SingleOrDefault(b => b.productId == id); //is it exist?
             if (ourRecord is null)
-                return BadRequest();
+                return BadRequest("There is no record to delete!");
 
             ProductList.Remove(ourRecord);
-            return Ok(ProductList); //http 200 
+            return NoContent(); //http 204 
         }
 
 
 
         /************************************* PATCH *********************************************/
 
-
+        //udate rotationCode information
+        //PATCH api/products/id
         [HttpPatch("{id}")]
         public IActionResult UpdateAvailability(int id, bool isActive)
         {
@@ -123,28 +158,18 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
             {
 
                 ProductList.SingleOrDefault(g => g.productId == id).isActive = isActive;
-                return Ok(ProductList); //http 200 
             }
             else
             {
-                return BadRequest();
+                return NotFound("There is no record to update");
             }
-
+            return NoContent(); //http 204
 
         }
 
 
 
 
-        /************************************* Linked Tables ********************************************/
-        
-        //GET api/products/1/Containers
-        [HttpGet("{id}/Containers")]
-        public List<Container> GetContainersByProduct(int id)
-        {
-            List<Container> containers = ContainerList.Where(b => b.productId == id).ToList();
-            return containers;
-        }
 
 
     }

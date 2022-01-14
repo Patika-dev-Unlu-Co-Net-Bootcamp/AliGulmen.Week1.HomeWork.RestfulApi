@@ -18,10 +18,11 @@ namespace AliGulmen.Week1.HomeWork.RestfulApi.DbOperations
          * This list includes Uoms
          */
         public static List<Uom> UomList = new List<Uom>() {
-            new Uom { uomId = 1, uomCode = "Box", description = "Box" },
-            new Uom { uomId = 2, uomCode = "Ctn", description = "Carton" },
-            new Uom { uomId = 3, uomCode = "Pc", description = "Piece" },
-            new Uom { uomId = 4, uomCode = "Pk", description = "Package" }
+            new Uom { uomId = 1, uomCode = "Pk", description = "Package" },
+            new Uom { uomId = 2, uomCode = "Pc", description = "Piece" },
+            new Uom { uomId = 3, uomCode = "Box", description = "Box" },
+            new Uom { uomId = 4, uomCode = "Ctn", description = "Carton" }
+           
         };
 
 
