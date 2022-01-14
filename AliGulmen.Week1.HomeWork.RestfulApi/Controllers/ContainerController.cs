@@ -1,9 +1,7 @@
 ﻿using AliGulmen.Week1.HomeWork.RestfulApi.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using AliGulmen.Week1.HomeWork.RestfulApi.DbOperations;
 
 namespace AliGulmen.Week1.HomeWork.RestfulApi.Controllers
